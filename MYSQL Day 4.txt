@@ -1,0 +1,512 @@
+SQL Day 4 05/09/26
+
+DML COMMANDS
+INSERT
+UPDATE
+DELETE
+
+USE PFS6;
+enter
+SHOW TABLES;
+enter
+CREATE TABLE EMPLOYEES(
+EMPID CHAR(5) PRIMARY KEY,
+FIRSTNAME VARCHAR(50),
+LASTNAME VARCHAR(30),
+AGE INT,
+DOJ DATE
+ADDRESS TINYTEXT,
+DEPT VARCHAR(20)
+);
+query ok
+
+NOTES:
+INSERT
+------
+APP-1
+------
+SYNTAX
+------
+insert into table-name(column-name1,column-name2,......column-name n)
+values(value-1,value2,value3.....value n);
+
+in program board cmd:
+INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+VALUES
+('E0001','SAMITHA','RAO',23,'2024-03-20','CHN','TRAINING');
+query ok
+SELECT*FROM EMPLOYEES;
+table created
+
+if we want to insert multiple records
+INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+VALUES
+('E0002','HEMITHA','RAO',22,'2024-03-22','CHN','TRAINING');
+query ok
+SELECT*FROM EMPLOYEES;
+table created
+
+in workbench
+USE PFS6;
+INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+VALUES
+('E0002','UMA','SHANKAR',40,'2025-07-19','VSP','POLICE')
+('E0003','MAHI','RAO',35,'2025-07-19','VSP','TEACHER')
+
+SELECT*FROM EMPLOYEES;
+table will be shown
+
+in program board cmd:
+INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+VALUES('E0004','JANI','BASHA',25,'2026-02-17','VJY','PHARMA');
+query ok
+
+INSERT INTO EMPLOYEES
+VALUES
+('E0005','KOTAPATI','THARUN',24,'2024-03-18','VSP','TRAINING'),
+('E0006','KOILADA','ROHIT',25,'2018-03-25','VSP','ADMIN');
+query ok
+SELECT*FROM EMPLOYEES;
+enter
+table will be updated
+
+INSERT INTO EMPLOYEES(DOJ,DEPT,ADDRESS,EMPID,FIRSTNAME,LASTNAME,AGE)
+VALUES
+('2000-07-27','SALES','DELHI','E0007','BARSHI','PATTANAIK',20)
+query ok
+
+SELECT*FROM EMPLOYEES;
+table will be created
+
+INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,AGE,ADDRESS,DEPT)
+VALUES
+('E0008','MOON',23,'NOIDA','HR');
+query ok
+
+SELECT*FROM EMPLOYEES;
+table will be created and which values are entered only those values will be updated and others will be null.
+
+INSERT INTO EMPLOYEES(EMPID,LASTNAME,DOJ,DEPT)VALUES('E0009','BABU','2026-03-03','IT');
+query ok
+
+SELECT*FROM EMPLOYEES;
+enter
+table will be updated
+
+in notes
+update:
+-------
+update table-name set column-name=value where some condition;
+UPDATE EMPLOYEES SET FIRSTNAME='KATRINA' WHERE EMPID='E0002';
+query ok
+
+SELECT*FROM EMPLOYEES WHERE EMPID='E0002';
+table will be created
+
+UPDATE EMPLOYEES SET FIRSTNAME='MAHESH' WHERE LASTNAME='BABU';
+enter
+
+UPADTE EMPLOYEES SET AGE=50 WHERE AGE IS NULL;
+query ok
+
+SELECT*FROM EMPLOYEES;
+table will be shown
+
+UPDATE EMPLOYEES SET LASTNAME='KRISHNA' WHERE FIRSTNAME='HARI';
+enter
+
+UPDATE EMPLOYEES SET  DOJ='2026-09-05' WHERE EMPID='E0008';
+enter
+
+in notes
+DELETE
+------
+DELETE THE RECORDS BASED ON SAME CONDITION
+SYNTAX
+------
+delete from table-name where some condition.
+
+in program board
+delete from employees where empid='e0009';
+query ok
+
+select*from employees;
+enter
+record will  be deleted
+
+delete from employees where firstname = 'sai';
+enter
+SELECT*FROM EMPLOYEES;
+table will be updated
+
+in notes
+TRUNCATE
+--------
+removes all records present in a table
+syntax
+------
+truncate table table-name;
+
+in program board
+TRUNCATE TABLE EMPLOYEES;
+query ok
+
+SELECT*FROM RMPLOYEES;
+enter
+table will be deleted
+
+in notes
+================================================================================
+1. DROP: --> removes the table or object 
+         --> table structure + data
+         --> table structure removed
+         --> performance is slow(due to full removal)
+
+2. DELETE: --> removes specific rows from a table
+           --> specific rows(based on condition)
+           --> table structure intact
+           --> performance is slower (row-by-row)
+ 
+3.TRUNCATE: --> removes all rows, keeps structure
+            --> all rows
+            --> table structure intact
+            --> performance is fast(bulk deletion)
+=================================================================================
+
+https://github.com/mallikarjuna2000/mysqlqueries
+
+add the table details from the GitHub
+Add a new column email with datatype
+
+
+-----> DML COMMANDS:- 
+DATA MANIPULATION LANGUAGE:-
+
+
+
+INSERT:-
+---- AP-1
+SYNTAX:- insert into table-name(column-name,column-name2,....column-name n)
+values(value-1,value2,value3........value n);
+
+insert into employees values()
+
+---> UPDATE:-
+----
+Update table-name set column-name=value where some condition;
+
+---> DELETE:- DELETE THE RECORDS BASED ON SOME CONDITION
+--- SYNTAX:-
+--- delete from table-name where some-condition.
+
+--->TRUNCATE
+--- Removes all records present in a table
+SYNTAX:-
+truncate table table-name;
+
+
+---> drop deletes entire table structure and records whereas
+---> truncate delete only records and doesn't affect the table structure
+
+
+
+
+1. DROP
+--- DEFINITION:- removes the table or object
+1. table structure + data
+2. table structure removed
+3. performance is slow(due to full removal)
+
+2. DELETE
+DEFINITION:- removes specific rows from a table
+1. specific rows(based on condition)
+2. table structure intact
+3. performance is slower (row-by-row)
+
+3.TRUNCATE
+DEFINITION:- removes all rows, keeps structure
+1. all rows
+2. table structure intact
+3. performance is fast(bulk deletion)
+
+
+
+https://github.com/mallikharjuna2000/mysqlqueries
+
+
+
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 22
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE PFS6;
+Database changed
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_pfs6 |
++----------------+
+| company_staff  |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE EMPLOYEES(
+    -> EMPID CHAR(5) PRIMARY KEY,
+    -> FIRSTNAME VARCHAR(50),
+    -> LASTNAME VARCHAR(30),
+    -> AGE INT,
+    -> DOJ DATE,
+    -> ADDRESS TINYTEXT,
+    -> DEPT VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+    -> VALUES
+    -> ('E0001','ARJUN','SARKAR',27,'2024-03-20','HYD','TRAINING');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+-----------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+-----------+----------+------+------------+---------+----------+
+| E0001 | ARJUN     | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
++-------+-----------+----------+------+------------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,LASTNAME,AGE,DOJ,ADDRESS,DEPT)
+    -> VALUES
+    -> ('E0003','SUNNY','LEONE',35,'2000-03-20','MUMBAI','ACTING'),
+    -> ('E0004','SUMPURNESH','BABU',40,'2016-09-10','HYD','ACTING');
+Query OK, 2 rows affected (0.08 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0003 | SUNNY      | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | BABU     |   40 | 2016-09-10 | HYD     | ACTING   |
++-------+------------+----------+------+------------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES VALUES('E0005','JANI','BASHA',25,'2026-02-2017','VJY',PHARMA');
+    '> ^C
+mysql> INSERT INTO EMPLOYEES VALUES('E0005','JANI','BASHA',25,'2026-02-2017','VJY','PHARMA');
+ERROR 1292 (22007): Incorrect date value: '2026-02-2017' for column 'DOJ' at row 1
+mysql> ^C
+mysql> INSERT INTO EMPLOYEES VALUES('E0005','JANI','BASHA',25,'2026-02-17','VJY','PHARMA');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES
+    -> ('E0006','SAI','VARDAN',24,'2024-03-18','VSP','TRAINING'),
+    -> ('E0007','SAI','KIRAN',32,'2018-08-20','BNG','ADMIN');
+Query OK, 2 rows affected (0.08 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0003 | SUNNY      | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | BABU     |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
++-------+------------+----------+------+------------+---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES(DOJ,DEPT,ADDRESS,EMPID,FIRSTNAME,LASTNAME,AGE)
+    -> VALUES
+    -> ('2000-07-27','SALES','DELHI','E0008','BALU','SUBBU',40);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0003 | SUNNY      | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | BABU     |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
++-------+------------+----------+------+------------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,AGE,ADDRESS,DEPT)
+    -> VALUES
+    -> 'E0009','HARI',17,'NOIDA','HR');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''E0009','HARI',17,'NOIDA','HR')' at line 3
+mysql> ^C
+mysql> ('E0009','HARI',17,'NOIDA','HR');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''E0009','HARI',17,'NOIDA','HR')' at line 1
+mysql> ^C
+mysql> ('E0009','HARI',17,'NOIDA','HR');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''E0009','HARI',17,'NOIDA','HR')' at line 1
+mysql> ^C
+mysql> ('E0009','HARI',17,'NOIDA','HR');^C
+mysql> INSERT INTO EMPLOYEES(EMPID,FIRSTNAME,AGE,ADDRESS,DEPT)
+    -> VALUES
+    -> ('E0009','HARI',17,'NOIDA','HR');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0003 | SUNNY      | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | BABU     |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | NULL     |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+8 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES(EMPID,LASTNAME,DOJ,DEPT)
+    -> VALUES
+    -> ('E0002','BABU','2026-03-03','IT');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0002 | NULL       | BABU     | NULL | 2026-03-03 | NULL    | IT       |
+| E0003 | SUNNY      | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | BABU     |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | NULL     |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET FIRSTNAME='KATRINA'WHERE EMPID='E0003';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES WHERE EMPID='E0003';
++-------+-----------+----------+------+------------+---------+--------+
+| EMPID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT   |
++-------+-----------+----------+------+------------+---------+--------+
+| E0003 | KATRINA   | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING |
++-------+-----------+----------+------+------------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET FIRSTNAME='MAHESH'WHERE LASTNAME 'BABU';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''BABU'' at line 1
+mysql> ^C
+mysql> UPDATE EMPLOYEES SET LASTNAME='MAHESH' WHERE LASTNAME='BABU';
+Query OK, 2 rows affected (0.07 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0002 | NULL       | MAHESH   | NULL | 2026-03-03 | NULL    | IT       |
+| E0003 | KATRINA    | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | MAHESH   |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | NULL     |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET AGE=50 WHERE AGE IS NULL;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0002 | NULL       | MAHESH   |   50 | 2026-03-03 | NULL    | IT       |
+| E0003 | KATRINA    | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | MAHESH   |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | NULL     |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET FIRSTNAME='HARI' WHERE LASTNAME='KRISHNA';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0002 | NULL       | MAHESH   |   50 | 2026-03-03 | NULL    | IT       |
+| E0003 | KATRINA    | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | MAHESH   |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | NULL     |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET LASTNAME='KRISHNA' WHERE FIRSTNAME='HARI;
+    '> ^C
+mysql> UPDATE EMPLOYEES SET LASTNAME='KRISHNA' WHERE FIRSTNAME='HARI';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
+| E0001 | ARJUN      | SARKAR   |   27 | 2024-03-20 | HYD     | TRAINING |
+| E0002 | NULL       | MAHESH   |   50 | 2026-03-03 | NULL    | IT       |
+| E0003 | KATRINA    | LEONE    |   35 | 2000-03-20 | MUMBAI  | ACTING   |
+| E0004 | SUMPURNESH | MAHESH   |   40 | 2016-09-10 | HYD     | ACTING   |
+| E0005 | JANI       | BASHA    |   25 | 2026-02-17 | VJY     | PHARMA   |
+| E0006 | SAI        | VARDAN   |   24 | 2024-03-18 | VSP     | TRAINING |
+| E0007 | SAI        | KIRAN    |   32 | 2018-08-20 | BNG     | ADMIN    |
+| E0008 | BALU       | SUBBU    |   40 | 2000-07-27 | DELHI   | SALES    |
+| E0009 | HARI       | KRISHNA  |   17 | NULL       | NOIDA   | HR       |
++-------+------------+----------+------+------------+---------+----------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET DOJ='2026-09-05' WHERE 'E0008';
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'E0008'
+mysql> ^C
+mysql> UPDATE EMPLOYEES SET DOJ='2026-09-05' WHERE 'E0009';
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'E0009'
+mysql> ^C
+mysql> UPDATE EMPLOYEES SET ADDRESS='CHENNAI' WHERE DEPT='IT';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM EMPLOYEES;
++-------+------------+----------+------+------------+---------+----------+
+| EMPID | FIRSTNAME  | LASTNAME | AGE  | DOJ        | ADDRESS | DEPT     |
++-------+------------+----------+------+------------+---------+----------+
