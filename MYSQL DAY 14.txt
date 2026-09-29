@@ -1,0 +1,960 @@
+DAY - 14 19/09/26
+==================
+
+JOINS:
+-------
+
+ use da6;
+Database changed
+mysql> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     name VARCHAR(100),
+    ->     department_id INT,
+    ->     salary DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Employees (emp_id, name, department_id, salary) VALUES
+    -> (101, 'Arjun', 1, 50000),
+    -> (102, 'Bhavana', 2, 65000),
+    -> (103, 'Charan', 2, 72000),
+    -> (104, 'Divya', 3, 45000),
+    -> (105, 'Eswar', NULL, 40000),
+    -> (106, 'Farhan', 4, 55000),
+    -> (107, 'Gowri', 2, 62000),
+    -> (108, 'Harish', 5, 48000),
+    -> (109, 'Ishita', NULL, 53000),
+    -> (110, 'Jagan', 3, 60000);
+Query OK, 10 rows affected (0.10 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Departments (
+    ->     department_id INT PRIMARY KEY,
+    ->     department_name VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (2.66 sec)
+
+mysql> INSERT INTO Departments (department_id, department_name) VALUES
+    -> (1, 'Human Resources'),
+    -> (2, 'Engineering'),
+    -> (3, 'Marketing'),
+    -> (4, 'Finance'),
+    -> (5, 'Operations');
+Query OK, 5 rows affected (0.36 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Projects (
+    ->     project_id INT PRIMARY KEY,
+    ->     project_name VARCHAR(100),
+    ->     emp_id INT
+    -> );
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> INSERT INTO Projects (project_id, project_name, emp_id) VALUES
+    -> (201, 'Website Redesign', 102),
+    -> (202, 'Mobile Banking App', 103),
+    -> (203, 'Marketing Campaign', 104),
+    -> (204, 'Payroll System', 106),
+    -> (205, 'Backend Optimization', 107),
+    -> (206, 'Cloud Migration', 102),
+    -> (207, 'Customer Analytics', 110),
+    -> (208, 'Inventory System', NULL);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
++--------+---------+---------------+----------+
+10 rows in set (0.02 sec)
+
+mysql> select*from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
++---------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from projects;
++------------+----------------------+--------+
+| project_id | project_name         | emp_id |
++------------+----------------------+--------+
+|        201 | Website Redesign     |    102 |
+|        202 | Mobile Banking App   |    103 |
+|        203 | Marketing Campaign   |    104 |
+|        204 | Payroll System       |    106 |
+|        205 | Backend Optimization |    107 |
+|        206 | Cloud Migration      |    102 |
+|        207 | Customer Analytics   |    110 |
+|        208 | Inventory System     |   NULL |
++------------+----------------------+--------+
+8 rows in set (0.00 sec)
+
+mysql> GET ALL EMPLOYEES WITH THEIR DEPARTMENTS.
+    -> SELECT E.EMP_ID,E.EMP_NAME,D.DEPARTMENT_NAME
+    -> FROM EMPLOYEES E
+    -> INNER JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D^C
+mysql> -- GET ALL EMPLOYEES WITH THEIR DEPARTMENTS.
+mysql> SELECT E.EMP_ID,E.NAME,D.DEPARTMENT_NAME
+    -> FROM EMPLOYEES E
+    -> INNER JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D.DEPARTMENT_ID;
++--------+---------+-----------------+
+| EMP_ID | NAME    | DEPARTMENT_NAME |
++--------+---------+-----------------+
+|    101 | Arjun   | Human Resources |
+|    102 | Bhavana | Engineering     |
+|    103 | Charan  | Engineering     |
+|    104 | Divya   | Marketing       |
+|    106 | Farhan  | Finance         |
+|    107 | Gowri   | Engineering     |
+|    108 | Harish  | Operations      |
+|    110 | Jagan   | Marketing       |
++--------+---------+-----------------+
+8 rows in set (0.02 sec)
+
+mysql> SELECT P.PROJECT_ID,P.NAME,P.PROJECT_NAME
+    -> FROM PROJECTS P
+    -> INNER JOIN PROJECTS P^C
+mysql> SELECT E.EMP_ID,E.NAME,P.PROJECT_NAME
+    -> FROM EMPLOYEES E
+    -> INNER JOIN PROJECTS P
+    -> ON E.EMP_ID=P.EMP_ID;
++--------+---------+----------------------+
+| EMP_ID | NAME    | PROJECT_NAME         |
++--------+---------+----------------------+
+|    102 | Bhavana | Website Redesign     |
+|    103 | Charan  | Mobile Banking App   |
+|    104 | Divya   | Marketing Campaign   |
+|    106 | Farhan  | Payroll System       |
+|    107 | Gowri   | Backend Optimization |
+|    102 | Bhavana | Cloud Migration      |
+|    110 | Jagan   | Customer Analytics   |
++--------+---------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT E.EMP_ID,E.NAME,P.PROJECT_NAME
+    -> FROM EMPLOYEES E
+    -> LEFT JOIN PROJECTS P
+    -> ON E.EMP_ID=P.EMP_ID;
++--------+---------+----------------------+
+| EMP_ID | NAME    | PROJECT_NAME         |
++--------+---------+----------------------+
+|    101 | Arjun   | NULL                 |
+|    102 | Bhavana | Cloud Migration      |
+|    102 | Bhavana | Website Redesign     |
+|    103 | Charan  | Mobile Banking App   |
+|    104 | Divya   | Marketing Campaign   |
+|    105 | Eswar   | NULL                 |
+|    106 | Farhan  | Payroll System       |
+|    107 | Gowri   | Backend Optimization |
+|    108 | Harish  | NULL                 |
+|    109 | Ishita  | NULL                 |
+|    110 | Jagan   | Customer Analytics   |
++--------+---------+----------------------+
+11 rows in set (0.01 sec)
+
+mysql> SELECT E.EMP_ID,E.NAME,D.DEPARTMENT_NAME
+    -> FROM EMPLOYEES E
+    -> LEFT JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D.DEPARTMENT_ID;
++--------+---------+-----------------+
+| EMP_ID | NAME    | DEPARTMENT_NAME |
++--------+---------+-----------------+
+|    101 | Arjun   | Human Resources |
+|    102 | Bhavana | Engineering     |
+|    103 | Charan  | Engineering     |
+|    104 | Divya   | Marketing       |
+|    105 | Eswar   | NULL            |
+|    106 | Farhan  | Finance         |
+|    107 | Gowri   | Engineering     |
+|    108 | Harish  | Operations      |
+|    109 | Ishita  | NULL            |
+|    110 | Jagan   | Marketing       |
++--------+---------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT E.EMP_ID,E.NAME,D.DEPARTMENT_NAME
+    -> FROM EMPLOYEES E
+    -> LEFT JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D.DEPARTMENT_ID WHERE DEPARTMENT_NAME IS NULL;
++--------+--------+-----------------+
+| EMP_ID | NAME   | DEPARTMENT_NAME |
++--------+--------+-----------------+
+|    105 | Eswar  | NULL            |
+|    109 | Ishita | NULL            |
++--------+--------+-----------------+
+2 rows in set (0.01 sec)
+
+mysql> select e.emp_id,e.name,p.project_name
+    -> from employees e
+    -> left join projects p
+    -> on e.department_id=p.project_name where project_name is null;
++--------+---------+--------------+
+| emp_id | name    | project_name |
++--------+---------+--------------+
+|    101 | Arjun   | NULL         |
+|    102 | Bhavana | NULL         |
+|    103 | Charan  | NULL         |
+|    104 | Divya   | NULL         |
+|    105 | Eswar   | NULL         |
+|    106 | Farhan  | NULL         |
+|    107 | Gowri   | NULL         |
+|    108 | Harish  | NULL         |
+|    109 | Ishita  | NULL         |
+|    110 | Jagan   | NULL         |
++--------+---------+--------------+
+10 rows in set, 8 warnings (0.01 sec)
+
+mysql> SELECT*FROM DEPARTMENTS;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
+|             6 | SALES           |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
++--------+---------+---------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT D.DEPARTMENT_NAME,E.NAME
+    -> FROM DEPARTMENTS D
+    -> RIGHT JOIN EMPLOYEES E
+    -> ON D.DEPARTMENT_ID=E.DEPARTMENT_ID;
++-----------------+---------+
+| DEPARTMENT_NAME | NAME    |
++-----------------+---------+
+| Human Resources | Arjun   |
+| Engineering     | Bhavana |
+| Engineering     | Charan  |
+| Marketing       | Divya   |
+| NULL            | Eswar   |
+| Finance         | Farhan  |
+| Engineering     | Gowri   |
+| Operations      | Harish  |
+| NULL            | Ishita  |
+| Marketing       | Jagan   |
++-----------------+---------+
+10 rows in set (0.00 sec)
+
+
+mysql> SELECT*FROM EMPLOYEES;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
++--------+---------+---------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT E1.NAME AS EMPLOYEE1,E2.NAME AS EMPLOYEE2,E1.DEPARTMENT_ID
+    -> FROM EMPLOYEES E1
+    -> JOIN EMPLOYEES E2
+    -> ON E1.DEPARTMENT_ID=E2.DEPARTMENT_ID AND E1.EMP_ID!=E2.EMP_ID;
++-----------+-----------+---------------+
+| EMPLOYEE1 | EMPLOYEE2 | DEPARTMENT_ID |
++-----------+-----------+---------------+
+| Gowri     | Bhavana   |             2 |
+| Charan    | Bhavana   |             2 |
+| Gowri     | Charan    |             2 |
+| Bhavana   | Charan    |             2 |
+| Jagan     | Divya     |             3 |
+| Charan    | Gowri     |             2 |
+| Bhavana   | Gowri     |             2 |
+| Divya     | Jagan     |             3 |
++-----------+-----------+---------------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT E.NAME,D.DEPARTMENT_NAME FROM EMPLOYEES E LEFT JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+    -> UNION
+    -> SELECT E.NAME,D.DEPARTMENT_NAME FROM EMPLOYEES E RIGHT JOIN DEPARTMENTS D
+    -> ON E.DEPARTMENT_ID=D.DEPARTMENT_ID;
++---------+-----------------+
+| NAME    | DEPARTMENT_NAME |
++---------+-----------------+
+| Arjun   | Human Resources |
+| Bhavana | Engineering     |
+| Charan  | Engineering     |
+| Divya   | Marketing       |
+| Eswar   | NULL            |
+| Farhan  | Finance         |
+| Gowri   | Engineering     |
+| Harish  | Operations      |
+| Ishita  | NULL            |
+| Jagan   | Marketing       |
+| NULL    | SALES           |
++---------+-----------------+
+11 rows in set (0.01 sec)
+
+mysql> SELECT*FROM EMPLOYEES;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
++--------+---------+---------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT D.DEPARTMENT_NAME,COUNT(E.EMP_ID)AS TOTAL_EMPLOYEES
+    -> FROM DEPARTMENTS D
+    -> LEFT JOIN EMPLOYEES E ON D.DEPARTMENT_ID=E.DEPARTMENT_ID
+    -> GROUP BY D.DEPARTMENT_NAME;
++-----------------+-----------------+
+| DEPARTMENT_NAME | TOTAL_EMPLOYEES |
++-----------------+-----------------+
+| Human Resources |               1 |
+| Engineering     |               3 |
+| Marketing       |               2 |
+| Finance         |               1 |
+| Operations      |               1 |
+| SALES           |               0 |
++-----------------+-----------------+
+6 rows in set (0.01 sec)
+
+mysql> SELECT D.DEPARTMENT_NAME,COUNT(E.EMP_ID)AS TOTAL_SALARY
+    -> FROM DEPARTMENTS D
+    -> ^C
+mysql> SELECT D.DEPARTMENT_NAME,SUM(E.SALARY)AS TOTAL_SALARY
+    -> ^C
+mysql> SELECT D.DEPARTMENT_NAME,SUM(E.SALARY)AS TOTAL_SALARY
+    ->  FROM DEPARTMENTS D
+    ->  LEFT JOIN EMPLOYEES E ON D.DEPARTMENT_ID=E.DEPARTMENT_ID
+    -> GROUP BY D.DEPARTMENT_NAME;
++-----------------+--------------+
+| DEPARTMENT_NAME | TOTAL_SALARY |
++-----------------+--------------+
+| Human Resources |     50000.00 |
+| Engineering     |    199000.00 |
+| Marketing       |    105000.00 |
+| Finance         |     55000.00 |
+| Operations      |     48000.00 |
+| SALES           |         NULL |
++-----------------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT E.NAME,COUNT(P.PROJECT_ID)AS TOTAL_PROJECTS
+    -> FROM EMPLOYEES E LEFT JOIN PROJECTS P
+    -> ON E.EMP_ID=P.EMP_ID GROUP BY E.NAME;
++---------+----------------+
+| NAME    | TOTAL_PROJECTS |
++---------+----------------+
+| Arjun   |              0 |
+| Bhavana |              2 |
+| Charan  |              1 |
+| Divya   |              1 |
+| Eswar   |              0 |
+| Farhan  |              1 |
+| Gowri   |              1 |
+| Harish  |              0 |
+| Ishita  |              0 |
+| Jagan   |              1 |
++---------+----------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT E.NAME,D.DEPARTMENT_NAME,E.SALARY
+    -> FROM EMPLOYEES E JOIN DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID;
++---------+-----------------+----------+
+| NAME    | DEPARTMENT_NAME | SALARY   |
++---------+-----------------+----------+
+| Arjun   | Human Resources | 50000.00 |
+| Bhavana | Engineering     | 65000.00 |
+| Charan  | Engineering     | 72000.00 |
+| Divya   | Marketing       | 45000.00 |
+| Farhan  | Finance         | 55000.00 |
+| Gowri   | Engineering     | 62000.00 |
+| Harish  | Operations      | 48000.00 |
+| Jagan   | Marketing       | 60000.00 |
++---------+-----------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT E.NAME,D.DEPARTMENT_NAME,E.SALARY
+    -> FROM EMPLOYEES E JOIN DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+    -> ORDER BY E.SALARY;
++---------+-----------------+----------+
+| NAME    | DEPARTMENT_NAME | SALARY   |
++---------+-----------------+----------+
+| Divya   | Marketing       | 45000.00 |
+| Harish  | Operations      | 48000.00 |
+| Arjun   | Human Resources | 50000.00 |
+| Farhan  | Finance         | 55000.00 |
+| Jagan   | Marketing       | 60000.00 |
+| Gowri   | Engineering     | 62000.00 |
+| Bhavana | Engineering     | 65000.00 |
+| Charan  | Engineering     | 72000.00 |
++---------+-----------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> -- DEPARTMENTS AND EMPLOYEE COUNT, ORDERED BY COUNT (HIGHEST FIRST).
+mysql> SELECT DEPARTMENT, COUNT(*)AS EMPLOYEE_COUNT
+    -> FROM EMPLOYEES
+    -> GROUP BY DEPARTMENT
+    -> ORDER BY EMPLOYEE_COUNT DESC;
+ERROR 1054 (42S22): Unknown column 'DEPARTMENT' in 'field list'
+mysql> SELECT D.DEPARTMENT_NAME, COUNT(E.EMP_ID)AS EMPLOYEE_COUNT
+    -> FROM DEPARTMENTS D LEFT JOIN EMPLOYEES E ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+    -> GROUP BY D.DEPARTMENT_NAME ORDER BY EMPLOYEE_COUNT DESC;
++-----------------+----------------+
+| DEPARTMENT_NAME | EMPLOYEE_COUNT |
++-----------------+----------------+
+| Engineering     |              3 |
+| Marketing       |              2 |
+| Human Resources |              1 |
+| Finance         |              1 |
+| Operations      |              1 |
+| SALES           |              0 |
++-----------------+----------------+
+6 rows in set (0.00 sec)
+
+
+mysql> -- DEPARTMENTS WITH MORE THAN 1 EMPLOYEE, ORDERED BY COUNT.
+mysql> -- DEPARTMENTS WITH TOTAL SALARY > 50000, ORDERED BY TOTAL SALARY.
+mysql> SELECT D.DEPARTMENT_NAME, COUNT(E.EMP_ID) AS EMPLOYEE_COUNT
+    -> FROM DEPARTMENTS D
+    -> LEFT JOIN EMPLOYEES E ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+    -> GROUP BY D.DEPARTMENT_NAME
+    -> HAVING COUNT(E.EMP_ID) > 1
+    -> ORDER BY EMPLOYEE_COUNT DESC;
++-----------------+----------------+
+| DEPARTMENT_NAME | EMPLOYEE_COUNT |
++-----------------+----------------+
+| Engineering     |              3 |
+| Marketing       |              2 |
++-----------------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT D.DEPARTMENT_NAME, SUM(E.SALARY) AS TOTAL_SALARY
+    -> FROM DEPARTMENTS D
+    -> LEFT JOIN EMPLOYEES E ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+    -> GROUP BY D.DEPARTMENT_NAME
+    -> HAVING SUM(E.SALARY) > 50000
+    -> ORDER BY TOTAL_SALARY DESC;
++-----------------+--------------+
+| DEPARTMENT_NAME | TOTAL_SALARY |
++-----------------+--------------+
+| Engineering     |    199000.00 |
+| Marketing       |    105000.00 |
+| Finance         |     55000.00 |
++-----------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT D.DEPARTMENT_NAME,SUM(E.SALARY)AS TOTAL_SALARY FROM DEPARTMENTS D LEFT JOIN EMPLOYEES E
+    -> ON D.DEPARTMENT_ID=E.DEPARTMENT_ID GROUP BY D.DEPARTMENT_NAME ORDER BY TOTAL_SALARY DESC;
++-----------------+--------------+
+| DEPARTMENT_NAME | TOTAL_SALARY |
++-----------------+--------------+
+| Engineering     |    199000.00 |
+| Marketing       |    105000.00 |
+| Finance         |     55000.00 |
+| Human Resources |     50000.00 |
+| Operations      |     48000.00 |
+| SALES           |         NULL |
++-----------------+--------------+
+6 rows in set (0.00 sec)
+===========================================================================================================================================================
+TASK:
+=========
+CREATE TABLE Students (student_id INT PRIMARY KEY, name VARCHAR(100), age INT);
+CREATE TABLE Courses (course_id INT PRIMARY KEY, course_name VARCHAR(100));
+CREATE TABLE Enrollments (enrollment_id INT PRIMARY KEY, student_id INT, course_id INT);
+ 
+INSERT INTO Students VALUES
+(1, 'Arjun', 20), (2, 'Bhavana', 21), (3, 'Charan', 22), (4, 'Divya', 20),
+(5, 'Eswar', 23), (6, 'Farhan', 21), (7, 'Gowri', 22);
+ 
+INSERT INTO Courses VALUES
+(101, 'Mathematics'), (102, 'Physics'), (103, 'Biology'), (104, 'Chemistry'), (105, 'Computer Science');
+ 
+INSERT INTO Enrollments VALUES
+(1, 1, 101), (2, 2, 101), (3, 2, 102), (4, 3, 103),
+(5, 4, 101), (6, 5, 104), (7, 1, 102), (8, 6, 105);
+
+
+QUESTIONS
+---------
+List all students with the courses they are enrolled in.
+
+Show course names along with student names.
+
+Get names of students enrolled in the "Physics" course.
+
+List all students with their courses (if enrolled).
+
+Show all courses and the students who enrolled (even if none).
+
+
+Display all students with course details, even if some courses have no enrollments.
+
+List all students and all courses, even if there is no match (simulate full join).
+
+Show pairs of students who have the same age.
+
+Count how many students are enrolled in each course.
+
+Show number of courses each student is enrolled in.
+
+
+List all students and courses ordered by student name.
+
+Show student names and course names ordered by course name.
+
+Show only courses with more than 1 student enrolled.
+
+List students enrolled in more than 1 course.
+
+Display student names and count of enrollments, ordered by highest enrollment.
+
+mysql> use da6;
+Database changed
+mysql> CREATE TABLE Students (student_id INT PRIMARY KEY, name VARCHAR(100), age INT);
+ERROR 1050 (42S01): Table 'students' already exists
+mysql> drop table students;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE Students (student_id INT PRIMARY KEY, name VARCHAR(100), age INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Students VALUES
+    -> (1, 'Arjun', 20), (2, 'Bhavana', 21), (3, 'Charan', 22), (4, 'Divya', 20),
+    -> (5, 'Eswar', 23), (6, 'Farhan', 21), (7, 'Gowri', 22);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select*from students;
++------------+---------+------+
+| student_id | name    | age  |
++------------+---------+------+
+|          1 | Arjun   |   20 |
+|          2 | Bhavana |   21 |
+|          3 | Charan  |   22 |
+|          4 | Divya   |   20 |
+|          5 | Eswar   |   23 |
+|          6 | Farhan  |   21 |
+|          7 | Gowri   |   22 |
++------------+---------+------+
+7 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Courses (course_id INT PRIMARY KEY, course_name VARCHAR(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Courses VALUES
+    -> (101, 'Mathematics'), (102, 'Physics'), (103, 'Biology'), (104, 'Chemistry'), (105, 'Computer Science');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select*from courses;
++-----------+------------------+
+| course_id | course_name      |
++-----------+------------------+
+|       101 | Mathematics      |
+|       102 | Physics          |
+|       103 | Biology          |
+|       104 | Chemistry        |
+|       105 | Computer Science |
++-----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Enrollments (enrollment_id INT PRIMARY KEY, student_id INT, course_id INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Enrollments VALUES
+    -> (1, 1, 101), (2, 2, 101), (3, 2, 102), (4, 3, 103),
+    -> (5, 4, 101), (6, 5, 104), (7, 1, 102), (8, 6, 105);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select*from enrollments;
++---------------+------------+-----------+
+| enrollment_id | student_id | course_id |
++---------------+------------+-----------+
+|             1 |          1 |       101 |
+|             2 |          2 |       101 |
+|             3 |          2 |       102 |
+|             4 |          3 |       103 |
+|             5 |          4 |       101 |
+|             6 |          5 |       104 |
+|             7 |          1 |       102 |
+|             8 |          6 |       105 |
++---------------+------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> -- 1) List all students with the courses they are enrolled in.
+mysql> SELECT s.name, e.course_id
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id;
++---------+-----------+
+| name    | course_id |
++---------+-----------+
+| Arjun   |       101 |
+| Bhavana |       101 |
+| Bhavana |       102 |
+| Charan  |       103 |
+| Divya   |       101 |
+| Eswar   |       104 |
+| Arjun   |       102 |
+| Farhan  |       105 |
++---------+-----------+
+8 rows in set (0.01 sec)
+
+mysql> -- 2) Show course names along with student names.
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> JOIN courses c
+    -> ON e.course_id = c.course_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Mathematics      |
+| Bhavana | Mathematics      |
+| Bhavana | Physics          |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Arjun   | Physics          |
+| Farhan  | Computer Science |
++---------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> 3) -- Get names of students enrolled in the "Physics" course.
+    -> SELECT s.name
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> JOIN courses c
+    -> ON e.course_id = c.course_id
+    -> WHERE c.course_name = 'Physics';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '3)
+SELECT s.name
+FROM students s
+JOIN enrollments e
+ON s.student_id = e.student' at line 1
+mysql> FROM students s^C
+mysql> SELECT students.name
+    -> FROM students
+    -> JOIN enrollments
+    -> ON students.student_id = enrollments.student_id
+    -> JOIN courses
+    -> ON enrollments.course_id = courses.course_id
+    -> WHERE courses.course_name = 'Physics';
++---------+
+| name    |
++---------+
+| Bhavana |
+| Arjun   |
++---------+
+2 rows in set (0.01 sec)
+
+mysql> -- 4) List all students with their courses (if enrolled).
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Physics          |
+| Arjun   | Mathematics      |
+| Bhavana | Physics          |
+| Bhavana | Mathematics      |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
+| Gowri   | NULL             |
++---------+------------------+
+9 rows in set (0.00 sec)
+
+mysql> -- 5) Show all courses and the students who enrolled (even if none).
+mysql> SELECT c.course_name, s.name
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    -> ON c.course_id = e.course_id
+    -> LEFT JOIN students s
+    -> ON e.student_id = s.student_id;
++------------------+---------+
+| course_name      | name    |
++------------------+---------+
+| Mathematics      | Divya   |
+| Mathematics      | Bhavana |
+| Mathematics      | Arjun   |
+| Physics          | Arjun   |
+| Physics          | Bhavana |
+| Biology          | Charan  |
+| Chemistry        | Eswar   |
+| Computer Science | Farhan  |
++------------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> -- 6) Display all students with course details, even if some courses have no enrollments.
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Physics          |
+| Arjun   | Mathematics      |
+| Bhavana | Physics          |
+| Bhavana | Mathematics      |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
+| Gowri   | NULL             |
++---------+------------------+
+9 rows in set (0.00 sec)
+
+mysql> 7) List all students and all courses, even if there is no match (simulate full join).
+    -> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id
+    ->
+    -> UNION
+    ->
+    -> SELECT s.name, c.course_name
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    -> ON c.course_id = e.course_id
+    -> LEFT JOIN students s
+    -> ON e.student_id = s.student_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '7) List all students and all courses, even if there is no match (simulate full j' at line 1
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id
+    ->
+    -> UNION
+    ->
+    -> SELECT s.name, c.course_name
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    -> ON c.course_id = e.course_id
+    -> LEFT JOIN students s
+    -> ON e.student_id = s.student_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Physics          |
+| Arjun   | Mathematics      |
+| Bhavana | Physics          |
+| Bhavana | Mathematics      |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
+| Gowri   | NULL             |
++---------+------------------+
+9 rows in set (0.01 sec)
+
+mysql> -- 8) Show pairs of students who have the same age.
+mysql> SELECT s1.name, s2.name, s1.age
+    -> FROM students s1
+    -> JOIN students s2
+    -> ON s1.age = s2.age
+    -> AND s1.student_id < s2.student_id;
++---------+--------+------+
+| name    | name   | age  |
++---------+--------+------+
+| Arjun   | Divya  |   20 |
+| Bhavana | Farhan |   21 |
+| Charan  | Gowri  |   22 |
++---------+--------+------+
+3 rows in set (0.01 sec)
+
+mysql> -- 9) Count how many students are enrolled in each course.
+mysql> SELECT c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    -> ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
++------------------+---------------+
+| course_name      | student_count |
++------------------+---------------+
+| Mathematics      |             3 |
+| Physics          |             2 |
+| Biology          |             1 |
+| Chemistry        |             1 |
+| Computer Science |             1 |
++------------------+---------------+
+5 rows in set (0.01 sec)
+
+mysql> -- 10) Show number of courses each student is enrolled in.
+mysql> SELECT s.name, COUNT(e.course_id) AS course_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> GROUP BY s.student_id, s.name;
++---------+--------------+
+| name    | course_count |
++---------+--------------+
+| Arjun   |            2 |
+| Bhavana |            2 |
+| Charan  |            1 |
+| Divya   |            1 |
+| Eswar   |            1 |
+| Farhan  |            1 |
+| Gowri   |            0 |
++---------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> -- 11) List all students and courses ordered by student name.
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> JOIN courses c
+    -> ON e.course_id = c.course_id
+    -> ORDER BY s.name;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Mathematics      |
+| Arjun   | Physics          |
+| Bhavana | Mathematics      |
+| Bhavana | Physics          |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
++---------+------------------+
+8 rows in set (0.01 sec)
+
+mysql> -- 12) Show student names and course names ordered by course name.
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> JOIN courses c
+    -> ON e.course_id = c.course_id
+    -> ORDER BY c.course_name;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Charan  | Biology          |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
+| Arjun   | Mathematics      |
+| Bhavana | Mathematics      |
+| Divya   | Mathematics      |
+| Bhavana | Physics          |
+| Arjun   | Physics          |
++---------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> -- 13) Show only courses with more than 1 student enrolled.
+mysql> SELECT c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM courses c
+    -> JOIN enrollments e
+    -> ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name
+    -> HAVING COUNT(e.student_id) > 1;
++-------------+---------------+
+| course_name | student_count |
++-------------+---------------+
+| Mathematics |             3 |
+| Physics     |             2 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> -- 14) List students enrolled in more than 1 course.
+mysql> SELECT s.name, COUNT(e.course_id) AS course_count
+    -> FROM students s
+    -> JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> GROUP BY s.student_id, s.name
+    -> HAVING COUNT(e.course_id) > 1;
++---------+--------------+
+| name    | course_count |
++---------+--------------+
+| Arjun   |            2 |
+| Bhavana |            2 |
++---------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> -- 15) Display student names and count of enrollments, ordered by highest enrollment.
+mysql> SELECT s.name, COUNT(e.course_id) AS enrollment_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> GROUP BY s.student_id, s.name
+    -> ORDER BY enrollment_count DESC;
++---------+------------------+
+| name    | enrollment_count |
++---------+------------------+
+| Arjun   |                2 |
+| Bhavana |                2 |
+| Charan  |                1 |
+| Divya   |                1 |
+| Eswar   |                1 |
+| Farhan  |                1 |
+| Gowri   |                0 |
++---------+------------------+
+7 rows in set (0.00 sec)
+
+
+
